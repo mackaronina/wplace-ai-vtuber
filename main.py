@@ -10,7 +10,7 @@ from utils.sound_model import SoundModel
 from utils.wplace_pom import WPlacePOM
 
 
-def main():
+def main() -> None:
     server = FastAPIServer()
     Thread(target=asyncio.run, args=(server.run_server(),)).start()
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
@@ -23,7 +23,7 @@ def main():
     say_greetings_text(sound_model, webcam)
     for _ in range(TOTAL_ITERATIONS):
         wplace_driver.go_to_random_place()
-        screen_base64 = wplace_driver.get_screen()
+        screen_base64 = wplace_driver.get_screen_as_base64()
         say_comment_text(sound_model, webcam, screen_base64)
     say_goodbye_text(sound_model, webcam)
     time.sleep(1)

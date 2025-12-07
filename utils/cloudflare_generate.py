@@ -9,7 +9,8 @@ from prompts import COMMENT_IMAGE_PROMPT, GREETINGS_PROMPT, SYSTEM_PROMPT, GOODB
 from schemas import CommentModel
 
 
-def generate_with_cloudflare(content: str | list[dict], json_model: type[BaseModel] | None = None):
+def generate_with_cloudflare(content: str | list[dict],
+                             json_model: type[BaseModel] | None = None) -> BaseModel | str | None:
     for attempts in range(5):
         try:
             link = f'https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/run/{CLOUDFLARE_MODEL_NAME}'
@@ -40,7 +41,7 @@ def generate_with_cloudflare(content: str | list[dict], json_model: type[BaseMod
     return None
 
 
-def generate_comment_to_screen(base64_image):
+def generate_comment_to_screen(base64_image: str) -> CommentModel | None:
     content = [
         {
             'type': 'text',
@@ -56,9 +57,9 @@ def generate_comment_to_screen(base64_image):
     return generate_with_cloudflare(content, CommentModel)
 
 
-def generate_greetings_comment():
+def generate_greetings_comment() -> str | None:
     return generate_with_cloudflare(GREETINGS_PROMPT)
 
 
-def generate_goodbye_comment():
+def generate_goodbye_comment() -> str | None:
     return generate_with_cloudflare(GOODBYE_PROMPT)

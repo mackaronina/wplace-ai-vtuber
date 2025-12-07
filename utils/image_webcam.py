@@ -2,6 +2,7 @@ import time
 from threading import Thread
 
 import simpleaudio
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
 from config import RESOURCE_URL
@@ -9,8 +10,8 @@ from schemas import GradeEnum
 from utils.selenium_utils import show_element, hide_element
 
 
-class Webcam:
-    def __init__(self, driver):
+class ImageWebcam:
+    def __init__(self, driver: WebDriver):
         js_code = f"""
             const ids = ['normal_image', 'negative_gif', 'neutral_gif', 'positive_gif'];
             const srcs = ['{RESOURCE_URL}/normal.png', '{RESOURCE_URL}/negative.gif', '{RESOURCE_URL}/neutral.gif', '{RESOURCE_URL}/positive.gif'];
@@ -33,16 +34,16 @@ class Webcam:
         self.driver = driver
         self.stop_talking_animation()
 
-    def play_talking_animation(self, grade):
+    def play_talking_animation(self, grade: GradeEnum = GradeEnum.neutral) -> None:
         element = self.driver.find_element(By.ID, f'{grade.value}_gif')
         show_element(self.driver, element)
 
-    def stop_talking_animation(self):
+    def stop_talking_animation(self) -> None:
         for grade in GradeEnum:
             element = self.driver.find_element(By.ID, f'{grade.value}_gif')
             hide_element(self.driver, element)
 
-    def say_sound_with_animation(self, grade=GradeEnum.neutral):
+    def say_sound_with_animation(self, grade: GradeEnum = GradeEnum.neutral) -> None:
         def start_with_delay():
             time.sleep(0.5)
             self.play_talking_animation(grade)
