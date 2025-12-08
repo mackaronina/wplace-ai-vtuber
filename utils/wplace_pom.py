@@ -20,6 +20,8 @@ class WPlacePOM:
         options.add_argument('--disable-infobars')
         options.add_argument('--lang=en')
         options.add_argument('--disable-web-security')
+        prefs = {'profile.default_content_setting_values.geolocation': 2}
+        options.add_experimental_option('prefs', prefs)
         options.add_experimental_option('excludeSwitches', ['enable-automation'])
         driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(10)
