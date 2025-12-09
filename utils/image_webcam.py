@@ -1,13 +1,14 @@
 import time
+from io import BytesIO
 from threading import Thread
 
-import simpleaudio
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
 from config import RESOURCE_URL
 from schemas import GradeEnum
-from utils.selenium_utils import show_element, hide_element
+from utils.audio_player import AudioPlayer
+from utils.selenium_elements import show_element, hide_element
 
 
 class ImageWebcam:
@@ -43,11 +44,12 @@ class ImageWebcam:
             element = self.driver.find_element(By.ID, f'{grade.value}_gif')
             hide_element(self.driver, element)
 
-    def say_sound_with_animation(self, grade: GradeEnum = GradeEnum.neutral) -> None:
+    def say_audio_with_animation(self, audio: BytesIO, player: AudioPlayer,
+                                 grade: GradeEnum = GradeEnum.neutral) -> None:
         def start_with_delay():
             time.sleep(0.5)
             self.play_talking_animation(grade)
 
         Thread(target=start_with_delay).start()
-        simpleaudio.WaveObject.from_wave_file('sound/audio.wav').play().wait_done()
+        player.play_wav_brom_binary(audio)
         self.stop_talking_animation()

@@ -10,7 +10,7 @@ from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from selenium.webdriver.common.by import By
 
 from utils.image_webcam import ImageWebcam
-from utils.selenium_utils import show_element, hide_element
+from utils.selenium_elements import show_element, hide_element
 
 
 # POM - PAGE OBJECT MODEL
