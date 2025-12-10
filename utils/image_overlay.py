@@ -5,7 +5,7 @@ from threading import Thread
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
-from config import RESOURCE_URL
+from config import SETTINGS
 from schemas import GradeEnum
 from utils.audio_player import AudioPlayer
 from utils.selenium_elements import show_element, hide_element
@@ -15,8 +15,10 @@ class ImageOverlay:
     def __init__(self, driver: WebDriver):
         js_code = f"""
             const ids = ['normal_image', 'negative_gif', 'neutral_gif', 'positive_gif'];
-            const srcs = ['{RESOURCE_URL}/normal.png', '{RESOURCE_URL}/negative.gif', '{RESOURCE_URL}/neutral.gif', \
-            '{RESOURCE_URL}/positive.gif'];
+            const srcs = ['{SETTINGS.get_resource_url('normal.png')}', \
+             '{SETTINGS.get_resource_url('negative.gif')}', \
+             '{SETTINGS.get_resource_url('neutral.gif')}', \
+            '{SETTINGS.get_resource_url('positive.gif')}'];
             const z_indexes = [100, 101, 101, 101]
             for (let i = 0; i < ids.length; i++) {{
                 const img = document.createElement('img');

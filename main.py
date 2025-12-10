@@ -3,7 +3,7 @@ import logging
 import time
 from threading import Thread
 
-from config import TOTAL_ITERATIONS
+from config import SETTINGS
 from utils.audio_player import AudioPlayer
 from utils.fastapi_server import FastAPIServer
 from utils.say_text import say_greetings_text, say_comment_text, say_goodbye_text
@@ -23,7 +23,7 @@ def main() -> None:
     logging.info('Ready to start stream')
     input('Press enter to start\n')
     say_greetings_text(tts, overlay, player)
-    for _ in range(TOTAL_ITERATIONS):
+    for _ in range(SETTINGS.STREAM_ITERATIONS):
         wplace_driver.go_to_random_place()
         screen_base64 = wplace_driver.get_screen_as_base64()
         say_comment_text(tts, overlay, player, screen_base64)

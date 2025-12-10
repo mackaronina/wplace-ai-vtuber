@@ -3,7 +3,7 @@ from io import BytesIO
 
 import pyaudio
 
-from config import AUDIO_CHUNK_SIZE
+from config import SETTINGS
 
 
 class AudioPlayer:
@@ -17,7 +17,7 @@ class AudioPlayer:
                                       rate=wf.getframerate(),
                                       output=True
                                       )
-            while len(data := wf.readframes(AUDIO_CHUNK_SIZE)):  # Requires Python 3.8+ for :=
+            while len(data := wf.readframes(SETTINGS.AUDIO_CHUNK_SIZE)):  # Requires Python 3.8+ for :=
                 stream.write(data)
             stream.close()
 

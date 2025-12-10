@@ -1,13 +1,32 @@
-import os
+from pydantic import SecretStr, Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from dotenv import load_dotenv
 
-load_dotenv()
+class ConfigBase(BaseSettings):
+    model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8', extra='ignore',
+                                      case_sensitive=False)
 
-AUDIO_CHUNK_SIZE = 1024
-TOTAL_ITERATIONS = 5
-RESOURCE_URL = 'http://127.0.0.1:8000/static'
-TEMPERATURE = 1.2
-CLOUDFLARE_API_KEY = os.getenv('CLOUDFLARE_API_KEY')
-CLOUDFLARE_ACCOUNT_ID = os.getenv('CLOUDFLARE_ACCOUNT_ID')
-CLOUDFLARE_MODEL_NAME = '@cf/meta/llama-4-scout-17b-16e-instruct'
+
+class CloudflareSettings(ConfigBase):
+    model_config = SettingsConfigDict(env_prefix='CLOUDFLARE_')
+    API_KEY: SecretStr
+    ACCOUNT_ID: str
+    MODEL_NAME: str = '@cf/meta/llama-4-scout-17b-16e-instruct'
+    MODEL_TEMPERATURE: float = 1.2
+    REQUEST_TIMEOUT_SECONDS: int = 10
+
+
+class Settings(ConfigBase):
+    CLOUDFLARE: CloudflareSettings = Field(default_factory=CloudflareSettings)
+    SERVER_HOST: str = '127.0.0.1'
+    SERVER_PORT: int = 8000
+    AUDIO_CHUNK_SIZE: int = 1024
+    STREAM_ITERATIONS: int = 5
+    TORCH_DEVICE: str = 'cuda:0'
+    SILERO_SPEAKER: str = 'eugene'
+
+    def get_resource_url(self, file_name: str) -> str:
+        return f'http://{self.SERVER_HOST}:{self.SERVER_PORT}/static/{file_name}'
+
+
+SETTINGS = Settings()

@@ -4,7 +4,7 @@ import time
 from curl_cffi import Session
 from pydantic import BaseModel
 
-from config import TEMPERATURE, CLOUDFLARE_API_KEY, CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_MODEL_NAME
+from config import SETTINGS
 from prompts import COMMENT_IMAGE_PROMPT, GREETINGS_PROMPT, SYSTEM_PROMPT, GOODBYE_PROMPT
 from schemas import CommentModel
 
@@ -13,9 +13,10 @@ def generate_with_cloudflare(content: str | list[dict],
                              json_model: type[BaseModel] | None = None) -> BaseModel | str | None:
     for attempts in range(5):
         try:
-            link = f'https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/run/{CLOUDFLARE_MODEL_NAME}'
+            link = (f'https://api.cloudflare.com/client/v4/accounts/{SETTINGS.CLOUDFLARE.ACCOUNT_ID}/ai/run/'
+                    f'{SETTINGS.CLOUDFLARE.MODEL_NAME}')
             headers = {
-                'Authorization': f'Bearer {CLOUDFLARE_API_KEY}'
+                'Authorization': f'Bearer {SETTINGS.CLOUDFLARE.API_KEY.get_secret_value()}'
             }
             data = {
                 'messages': [
@@ -28,11 +29,12 @@ def generate_with_cloudflare(content: str | list[dict],
                         'content': content
                     }
                 ],
-                'temperature': TEMPERATURE,
+                'temperature': SETTINGS.CLOUDFLARE.MODEL_TEMPERATURE,
                 'guided_json': json_model.model_json_schema() if json_model is not None else None
             }
             with Session() as session:
-                resp = session.post(link, json=data, headers=headers, impersonate='chrome110', timeout=10)
+                resp = session.post(link, json=data, headers=headers, impersonate='chrome110',
+                                    timeout=SETTINGS.CLOUDFLARE.REQUEST_TIMEOUT_SECONDS)
                 result = resp.json()['result']['response']
                 return json_model.model_validate(result) if json_model is not None else result
         except Exception as e:
