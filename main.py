@@ -22,11 +22,14 @@ def main() -> None:
     overlay = wplace_driver.add_overlay()
     logging.info('Ready to start stream')
     input('Press enter to start\n')
+    # Greetings
     say_greetings_text(tts, overlay, player)
+    # Main part of the stream
     for _ in range(SETTINGS.STREAM_ITERATIONS):
         wplace_driver.go_to_random_place()
         screen_base64 = wplace_driver.get_screen_as_base64()
         say_comment_text(tts, overlay, player, screen_base64)
+    # Farewell
     say_goodbye_text(tts, overlay, player)
     time.sleep(1)
     wplace_driver.quit()
