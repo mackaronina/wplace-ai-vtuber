@@ -2,8 +2,8 @@ import logging
 import time
 from datetime import datetime
 
-from curl_cffi import Session
 from pydantic import BaseModel
+from requests import Session
 
 from config import SETTINGS
 from prompts import GREETINGS_PROMPT, SYSTEM_PROMPT, GOODBYE_PROMPT, FIRST_COMMENT_IMAGE_PROMPT, \
@@ -35,7 +35,7 @@ def generate_with_cloudflare(content: str | list[dict],
                 'guided_json': json_model.model_json_schema() if json_model is not None else None
             }
             with Session() as session:
-                resp = session.post(link, json=data, headers=headers, impersonate='chrome110',
+                resp = session.post(link, json=data, headers=headers,
                                     timeout=SETTINGS.CLOUDFLARE.REQUEST_TIMEOUT_SECONDS)
                 result = resp.json()['result']['response']
                 return json_model.model_validate(result) if json_model is not None else result
