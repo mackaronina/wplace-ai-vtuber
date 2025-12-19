@@ -4,6 +4,7 @@ import time
 
 from PIL import Image
 from selenium import webdriver
+from selenium.common import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
@@ -24,11 +25,20 @@ class WPlacePOM:
         options.add_experimental_option('prefs', prefs)
         options.add_experimental_option('excludeSwitches', ['enable-automation'])
         driver = webdriver.Chrome(options=options)
-        driver.implicitly_wait(10)
+        driver.implicitly_wait(2)
         driver.maximize_window()
         driver.get('https://wplace.live')
         self.driver = driver
+        time.sleep(1)
         self.hide_interface()
+        self.hide_snowflakes()
+
+    def hide_snowflakes(self) -> None:
+        try:
+            snowflakes = self.driver.find_element(By.CLASS_NAME, 'snowframe')
+            hide_element(self.driver, snowflakes)
+        except NoSuchElementException:
+            pass
 
     def hide_interface(self) -> None:
         elements = self.driver.find_elements(By.CLASS_NAME, 'absolute')
