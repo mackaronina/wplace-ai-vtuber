@@ -35,7 +35,7 @@ class WPlacePOM:
 
     def hide_snowflakes(self) -> None:
         try:
-            snowflakes = self.driver.find_element(By.CLASS_NAME, 'snowframe')
+            snowflakes = self.driver.find_element(By.CLASS_NAME, 'snowflakes')
             hide_element(self.driver, snowflakes)
         except NoSuchElementException:
             pass
