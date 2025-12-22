@@ -10,8 +10,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from selenium.webdriver.common.by import By
 
-from utils.image_overlay import ImageOverlay
-from utils.selenium_elements import show_element, hide_element
+from app.utils.image_overlay import ImageOverlay
+from app.utils.selenium_elements import show_element, hide_element
 
 
 # POM - PAGE OBJECT MODEL

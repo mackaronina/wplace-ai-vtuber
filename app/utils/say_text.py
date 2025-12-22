@@ -1,9 +1,9 @@
 import logging
 
-from utils.audio_player import AudioPlayer
-from utils.image_overlay import ImageOverlay
-from utils.llm_model import LLMModel
-from utils.tts_model import TTSModel
+from app.utils.audio_player import AudioPlayer
+from app.utils.image_overlay import ImageOverlay
+from app.utils.llm_model import LLMModel
+from app.utils.tts_model import TTSModel
 
 
 def say_greetings_text(tts: TTSModel, overlay: ImageOverlay, player: AudioPlayer, llm: LLMModel) -> None:

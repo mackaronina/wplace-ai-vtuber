@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
 
-from config import SETTINGS
+from app.config import SETTINGS, BASE_DIR
 
 
 class FastAPIServer:
@@ -12,7 +12,7 @@ class FastAPIServer:
 
     async def run_server(self) -> None:
         app = FastAPI()
-        app.mount('/static', StaticFiles(directory='static'), name='static')
+        app.mount('/static', StaticFiles(directory=f'{BASE_DIR}/app/static'), name='static')
         self.server = uvicorn.Server(uvicorn.Config(app, host=SETTINGS.SERVER_HOST, port=SETTINGS.SERVER_PORT))
         await self.server.serve()
 

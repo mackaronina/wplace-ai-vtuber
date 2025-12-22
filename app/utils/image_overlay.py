@@ -5,10 +5,10 @@ from threading import Thread
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
-from config import SETTINGS
-from schemas import GradeEnum
-from utils.audio_player import AudioPlayer
-from utils.selenium_elements import show_element, hide_element
+from app.config import SETTINGS
+from app.schemas import GradeEnum
+from app.utils.audio_player import AudioPlayer
+from app.utils.selenium_elements import show_element, hide_element
 
 
 class ImageOverlay:

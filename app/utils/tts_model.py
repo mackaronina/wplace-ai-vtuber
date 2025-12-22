@@ -5,7 +5,7 @@ import torchaudio
 from silero import silero_tts
 from transliterate import translit
 
-from config import SETTINGS
+from app.config import SETTINGS
 
 
 class TTSModel:

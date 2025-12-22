@@ -3,13 +3,13 @@ import logging
 import time
 from threading import Thread
 
-from config import SETTINGS
-from utils.audio_player import AudioPlayer
-from utils.fastapi_server import FastAPIServer
-from utils.llm_model import LLMModel
-from utils.say_text import say_greetings_text, say_comment_text, say_goodbye_text
-from utils.tts_model import TTSModel
-from utils.wplace_pom import WPlacePOM
+from app.config import SETTINGS
+from app.utils.audio_player import AudioPlayer
+from app.utils.fastapi_server import FastAPIServer
+from app.utils.llm_model import LLMModel
+from app.utils.say_text import say_greetings_text, say_comment_text, say_goodbye_text
+from app.utils.tts_model import TTSModel
+from app.utils.wplace_pom import WPlacePOM
 
 
 def main() -> None:
@@ -24,7 +24,7 @@ def main() -> None:
     overlay = wplace_driver.add_overlay()
     player = AudioPlayer()
     llm = LLMModel()
-
+    
     logging.info('Ready to start stream')
     input('Press enter to start\n')
 

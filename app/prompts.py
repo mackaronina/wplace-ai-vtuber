@@ -1,6 +1,6 @@
 import json
 
-from schemas import CommentModel
+from app.schemas import CommentModel
 
 # Prompt that is added to all requests. Describe here LLM's personality as a streamer, his habits and manner of speech
 SYSTEM_PROMPT = 'Некославия это крайне развитая страна, граждан которой называют некославы, а мудрого правителя \

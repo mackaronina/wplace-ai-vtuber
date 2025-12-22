@@ -3,7 +3,7 @@ from io import BytesIO
 
 import pyaudio
 
-from config import SETTINGS
+from app.config import SETTINGS
 
 
 class AudioPlayer:

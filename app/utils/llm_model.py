@@ -5,10 +5,10 @@ from datetime import datetime
 from pydantic import BaseModel
 from requests import Session
 
-from config import SETTINGS
-from prompts import GREETINGS_PROMPT, SYSTEM_PROMPT, GOODBYE_PROMPT, FIRST_COMMENT_IMAGE_PROMPT, \
+from app.config import SETTINGS
+from app.prompts import GREETINGS_PROMPT, SYSTEM_PROMPT, GOODBYE_PROMPT, FIRST_COMMENT_IMAGE_PROMPT, \
     SCHEMA_DESCRIPTION, SECOND_COMMENT_IMAGE_PROMPT
-from schemas import CommentModel
+from app.schemas import CommentModel
 
 
 def generate_with_cloudflare(content: str | list[dict],
